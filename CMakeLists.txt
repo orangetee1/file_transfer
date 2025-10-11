@@ -14,4 +14,9 @@ add_executable(lab2 main.cpp
         src/server/ServerState.cpp
         src/server/ServerState.h
         src/server/ConnectionHandler.cpp
-        src/server/ConnectionHandler.h)
+        src/server/ConnectionHandler.h
+        src/protocol/messages/Header.h
+        src/protocol/messages/InitMessage.h
+        src/protocol/io/MessagesIO.cpp
+        src/protocol/io/MessagesIO.h
+)
