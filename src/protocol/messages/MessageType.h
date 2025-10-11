@@ -8,8 +8,12 @@
 
 enum class MessageType : uint8_t {
     INIT,
+    ACK_INIT,
     TRANS,
-    END
+    ACK_TRANS,
+    END,
+    END_STATUS,
+    SPEED_CHECK
 };
 
 #endif //MESSAGETYPE_H
