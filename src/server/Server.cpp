@@ -4,6 +4,7 @@
 
 #include "Server.h"
 
+#include <iostream>
 #include <sys/socket.h>
 
 void signalHandler(int signal) {
@@ -11,7 +12,8 @@ void signalHandler(int signal) {
 }
 
 Server::Server(int port) :
-    server_socket_(std::make_unique<ServerSocket>(port)) {
+    server_socket_(std::make_unique<ServerSocket>(port)),
+    thread_manager_(std::make_unique<ThreadManager>()) {
     setSignalHandler_();
 }
 
@@ -39,6 +41,8 @@ void Server::mainLoop_() {
 
         handleConnection_();
     }
+
+    shutdown_();
 }
 
 void Server::handleConnection_() {
@@ -46,7 +50,5 @@ void Server::handleConnection_() {
 }
 
 void Server::shutdown_() {
-    for (auto &thread : threads_) {
-        thread.join();
-    }
+    std::cout << "Server terminated" << std::endl;
 }

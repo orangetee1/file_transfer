@@ -10,6 +10,7 @@
 #include <array>
 
 #include "ServerState.h"
+#include "ThreadManager.h"
 #include "../include/Constants.h"
 #include "../net/ServerSocket.h"
 
@@ -25,7 +26,7 @@ public:
 private:
     // Data
     std::unique_ptr<ServerSocket> server_socket_;
-    std::array<std::thread, kDefaultBacklog> threads_;
+    std::unique_ptr<ThreadManager> thread_manager_;
 
     // Methods
     void setSignalHandler_();
