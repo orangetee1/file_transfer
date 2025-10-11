@@ -34,9 +34,11 @@ void Server::setSignalHandler_() {
 
 void Server::handleConnection_(int client_socket, int server_socket) {
     if (thread_count_ < kDefaultBacklog) {
-        ConnectionHandler handler(client_socket, server_socket, server_state);
+        auto handler = std::make_shared<ConnectionHandler>(client_socket, server_socket, server_state);
 
-        threads_[thread_count_] = std::thread(&ConnectionHandler::handle, &handler);
+        threads_[thread_count_] = std::thread([handler]() {
+            handler->handle();
+        });
 
         thread_count_++;
     } else {
@@ -46,10 +48,9 @@ void Server::handleConnection_(int client_socket, int server_socket) {
 
 void Server::mainLoop_() {
     while (server_state->getServerState()) {
-        int client_socket;
+        int client_socket = accept(server_socket_->getSocket(), nullptr, nullptr);
 
-        if ((client_socket = accept(server_socket_->getSocket(),
-            nullptr, nullptr)) < 0) {
+        if (client_socket < 0) {
             throw std::runtime_error("accept failed");
         }
 
@@ -61,7 +62,8 @@ void Server::mainLoop_() {
 
 void Server::shutdown_() {
     for (auto &thread : threads_) {
-        thread.join();
+        if (thread.joinable())
+            thread.join();
     }
 
     std::cout << "Server terminated" << std::endl;
