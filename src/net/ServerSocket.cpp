@@ -5,6 +5,7 @@
 #include "ServerSocket.h"
 
 #include <stdexcept>
+#include <unistd.h>
 #include <arpa/inet.h>
 
 #include "../include/Constants.h"
@@ -28,3 +29,14 @@ ServerSocket::ServerSocket(int port) {
         throw std::runtime_error("listen failed");
     }
 }
+
+ServerSocket::~ServerSocket() {
+    if (close(server_socket_) < 0) {
+        throw std::runtime_error("close failed");
+    }
+}
+
+int ServerSocket::getSocket() {
+    return server_socket_;
+}
+

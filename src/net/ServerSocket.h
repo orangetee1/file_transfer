@@ -10,6 +10,8 @@
 class ServerSocket {
 public:
     ServerSocket(int port);
+    ~ServerSocket();
+    int getSocket();
 
 private:
     int server_socket_;

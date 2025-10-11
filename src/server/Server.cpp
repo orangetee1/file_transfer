@@ -4,6 +4,8 @@
 
 #include "Server.h"
 
+#include <sys/socket.h>
+
 void signalHandler(int signal) {
     server_state->setServerState(0);
 }
@@ -27,4 +29,24 @@ void Server::setSignalHandler_() {
 }
 
 void Server::mainLoop_() {
+    while (server_state->getServerState()) {
+        int client_socket;
+
+        if ((client_socket = accept(server_socket_->getSocket(),
+            nullptr, nullptr)) < 0) {
+            throw std::runtime_error("accept failed");
+        }
+
+        handleConnection_();
+    }
+}
+
+void Server::handleConnection_() {
+
+}
+
+void Server::shutdown_() {
+    for (auto &thread : threads_) {
+        thread.join();
+    }
 }
