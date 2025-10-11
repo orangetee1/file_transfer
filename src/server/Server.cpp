@@ -39,16 +39,14 @@ void Server::mainLoop_() {
             throw std::runtime_error("accept failed");
         }
 
-        handleConnection_();
+        thread_manager_->handleConnection(client_socket, server_socket_->getSocket());
     }
 
     shutdown_();
 }
 
-void Server::handleConnection_() {
-
-}
-
 void Server::shutdown_() {
+    thread_manager_->shutDown();
+
     std::cout << "Server terminated" << std::endl;
 }

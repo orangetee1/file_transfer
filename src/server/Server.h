@@ -31,7 +31,6 @@ private:
     // Methods
     void setSignalHandler_();
     void mainLoop_();
-    void handleConnection_();
     void shutdown_();
 };
 

@@ -4,9 +4,11 @@
 
 #include "ServerSocket.h"
 
+#include <iostream>
 #include <stdexcept>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <bits/ostream.tcc>
 
 #include "../include/Constants.h"
 
@@ -32,7 +34,7 @@ ServerSocket::ServerSocket(int port) {
 
 ServerSocket::~ServerSocket() {
     if (close(server_socket_) < 0) {
-        throw std::runtime_error("close failed");
+        std::cerr << "close failed" << std::endl;
     }
 }
 

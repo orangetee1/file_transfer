@@ -4,8 +4,13 @@
 
 #include "ThreadManager.h"
 
-ThreadManager::~ThreadManager() {
+void ThreadManager::shutDown() {
     for (auto &thread : threads_) {
         thread.join();
     }
+
+}
+
+void ThreadManager::handleConnection(int client_socket, int server_socket) {
+
 }

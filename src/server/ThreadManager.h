@@ -12,7 +12,8 @@
 
 class ThreadManager {
 public:
-    ~ThreadManager();
+    void shutDown();
+    void handleConnection(int client_socket, int server_socket);
 
 private:
     std::array<std::thread, kDefaultBacklog> threads_;
