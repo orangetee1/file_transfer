@@ -12,6 +12,18 @@
 #include "../../include/Constants.h"
 #include "../messages/Header.h"
 
+Header MessagesIO::recvHeader(int socket, int *status) {
+    Header header{};
+    int err = recv(socket, &header, sizeof(header), 0);
+    if (err < 0) {
+        throw std::runtime_error("recv failed (header message)");
+    }
+
+    *status = err;
+
+    return header;
+}
+
 void MessagesIO::sendInitMessage(int socket, std::string filename, uint64_t filesize) {
     if (filename.size() > kMaxFileNameSize) {
         throw std::runtime_error("messages io: filename size is too big");
@@ -26,8 +38,7 @@ void MessagesIO::sendInitMessage(int socket, std::string filename, uint64_t file
     strcpy(message.filename, filename.c_str());
 
     Header header{};
-    header.type = 0; // TODO: more readable format
-    header.length = htonl(sizeof(message));
+    header.type = MessageType::INIT;
 
     int err = send(socket, &header, sizeof(header), 0);
     if (err < 0) {
@@ -44,5 +55,10 @@ void MessagesIO::sendInitMessage(int socket, std::string filename, uint64_t file
 InitMessage MessagesIO::recvInitMessage(int socket, int *status) {
     InitMessage message;
     *status = recv(socket, &message, sizeof(message), 0);
+
+    if (*status < 0) {
+        throw std::runtime_error("recv failed (init message)");
+    }
+
     return message;
 }

@@ -8,11 +8,14 @@
 #include <string>
 
 #include "../messages/InitMessage.h"
+#include "../messages/Header.h"
 
 class MessagesIO {
 public:
-    void sendInitMessage(int socket, std::string filename, uint64_t filesize);
-    InitMessage recvInitMessage(int socket, int *status);
+    static Header recvHeader(int socket, int *status);
+
+    static void sendInitMessage(int socket, std::string filename, uint64_t filesize);
+    static InitMessage recvInitMessage(int socket, int *status);
 };
 
 
