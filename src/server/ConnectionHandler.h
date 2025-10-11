@@ -6,6 +6,7 @@
 
 #include <memory>
 
+#include "FileHandler.h"
 #include "ServerState.h"
 
 /**
@@ -21,11 +22,13 @@ private:
     int client_socket_;
     int server_socket_;
     std::shared_ptr<ServerState> server_state_;
+    std::unique_ptr<FileHandler> file_handler_;
     bool is_transferring_done;
 
     // Methods
     void handle_();
     void closeClientSocket_();
+    void connectionClosedByPeer_();
 
     void processInitMessage_();
     void processTransMessage_();

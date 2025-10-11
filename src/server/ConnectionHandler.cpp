@@ -7,17 +7,15 @@
 #include <iostream>
 #include <sys/socket.h>
 
-#include "../include/ConsoleColors.h"
 #include "../protocol/io/MessagesIO.h"
 
 ConnectionHandler::ConnectionHandler(int client_socket, int server_socket,
                                      std::shared_ptr<ServerState> ss) :
     client_socket_(client_socket), server_socket_(server_socket),
-    server_state_(std::move(ss)) {
-    is_transferring_done = false;
-}
+    server_state_(std::move(ss)),
+    file_handler_(std::make_unique<FileHandler>()),
+    is_transferring_done(false) { }
 
-// Main work with connection
 void ConnectionHandler::handle() {
     std::cout << "thread created" << std::endl;
 
@@ -38,8 +36,7 @@ void ConnectionHandler::handle_() {
 
     Header header = MessagesIO::recvHeader(client_socket_, &status);
     if (status == 0) {
-        std::cout << "connection closed by peer" << std::endl;
-        is_transferring_done = true;
+        connectionClosedByPeer_();
     }
 
     switch (header.type) {
@@ -61,4 +58,35 @@ void ConnectionHandler::closeClientSocket_() {
 
         throw std::runtime_error("connection handler: close (client socket) failed");
     }
+}
+
+void ConnectionHandler::connectionClosedByPeer_() {
+    is_transferring_done = true;
+    std::cout << "connection closed by peer" << std::endl;
+}
+
+void ConnectionHandler::processInitMessage_() {
+    int status;
+
+    InitMessage init_message = MessagesIO::recvInitMessage(client_socket_, &status);
+    if (status == 0) {
+        connectionClosedByPeer_();
+    }
+
+    file_handler_->openFile(init_message.filename, init_message.filesize);
+}
+
+void ConnectionHandler::processTransMessage_() {
+    int status;
+
+    TransMessage trans_message = MessagesIO::recvTransMessage(client_socket_, &status);
+    if (status == 0) {
+        connectionClosedByPeer_();
+    }
+
+    file_handler_->writeToFile(trans_message.content, kTransferSize);
+}
+
+void ConnectionHandler::processEndMessage_() {
+
 }
