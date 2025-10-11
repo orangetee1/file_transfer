@@ -5,23 +5,14 @@
 #ifndef MESSAGESIO_H
 #define MESSAGESIO_H
 
-#include <string>
 
-#include "../messages/InitMessage.h"
-#include "../messages/Header.h"
-#include "../messages/TransMessage.h"
-
-// TODO: handle status == 0 in method (do not pass [int *status])
 
 class MessagesIO {
 public:
-    static Header recvHeader(int socket, int *status);
+    MessagesIO(int socket);
 
-    static void sendInitMessage(int socket, std::string filename, uint64_t filesize);
-    static InitMessage recvInitMessage(int socket, int *status);
-
-    static void sendTransMessage(int socket, uint32_t seq, char *content);
-    static TransMessage recvTransMessage(int socket, int *status);
+private:
+    int socket_;
 };
 
 
