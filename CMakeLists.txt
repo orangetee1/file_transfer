@@ -21,4 +21,7 @@ add_executable(lab2 main.cpp
         src/protocol/io/MessagesIO.h
         src/include/ConsoleColors.h
         src/protocol/messages/MessageType.h
+        src/server/FileHandler.cpp
+        src/server/FileHandler.h
+        src/protocol/messages/TransMessage.h
 )
