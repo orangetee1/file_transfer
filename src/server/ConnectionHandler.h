@@ -22,7 +22,6 @@ private:
     int server_socket_;
     std::shared_ptr<ServerState> server_state_;
     bool is_transferring_done;
-    bool is_connection_closed_by_peer_;
 
     // Methods
     void handle_();
