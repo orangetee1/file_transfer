@@ -10,6 +10,10 @@
 #include "ServerState.h"
 #include "../net/ServerSocket.h"
 
+inline auto server_state = std::make_shared<ServerState>();
+
+void signalHandler(int signal);
+
 class Server {
 public:
     Server(int port);
@@ -17,11 +21,11 @@ public:
 
 private:
     // Data
-    std::shared_ptr<ServerState> server_state_;
     std::unique_ptr<ServerSocket> server_socket_;
 
     // Methods
     void setSignalHandler_();
+    void mainLoop_();
 };
 
 
