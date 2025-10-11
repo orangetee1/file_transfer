@@ -51,6 +51,10 @@ void Server::mainLoop_() {
         int client_socket = accept(server_socket_->getSocket(), nullptr, nullptr);
 
         if (client_socket < 0) {
+            if (errno == EINTR) {
+                std::cout << "Server was stopped" << std::endl;
+                break;
+            }
             throw std::runtime_error("accept failed");
         }
 
