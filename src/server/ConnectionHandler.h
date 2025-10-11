@@ -26,6 +26,10 @@ private:
     // Methods
     void handle_();
     void closeClientSocket_();
+
+    void processInitMessage_();
+    void processTransMessage_();
+    void processEndMessage_();
 };
 
 
