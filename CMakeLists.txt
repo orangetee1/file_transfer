@@ -4,6 +4,12 @@ project(lab2)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(lab2 main.cpp
-        src/utils/ServerSocket.cpp
-        src/utils/ServerSocket.h
-        src/include/Constants.h)
+        src/net/ServerSocket.cpp
+        src/net/ServerSocket.h
+        src/include/Constants.h
+        src/server/Server.cpp
+        src/server/Server.h
+        src/net/ClientSocket.cpp
+        src/net/ClientSocket.h
+        src/server/ServerState.cpp
+        src/server/ServerState.h)
