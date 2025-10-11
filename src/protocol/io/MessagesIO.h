@@ -9,6 +9,9 @@
 
 #include "../messages/InitMessage.h"
 #include "../messages/Header.h"
+#include "../messages/TransMessage.h"
+
+// TODO: handle status == 0 in method (do not pass [int *status])
 
 class MessagesIO {
 public:
@@ -16,6 +19,9 @@ public:
 
     static void sendInitMessage(int socket, std::string filename, uint64_t filesize);
     static InitMessage recvInitMessage(int socket, int *status);
+
+    static void sendTransMessage(int socket, uint32_t seq, char *content);
+    static TransMessage recvTransMessage(int socket, int *status);
 };
 
 

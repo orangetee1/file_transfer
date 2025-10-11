@@ -53,7 +53,39 @@ void MessagesIO::sendInitMessage(int socket, std::string filename, uint64_t file
 }
 
 InitMessage MessagesIO::recvInitMessage(int socket, int *status) {
-    InitMessage message;
+    InitMessage message{};
+    *status = recv(socket, &message, sizeof(message), 0);
+
+    if (*status < 0) {
+        throw std::runtime_error("recv failed (init message)");
+    }
+
+    return message;
+}
+
+void MessagesIO::sendTransMessage(int socket, uint32_t seq, char *content) {
+    TransMessage message{};
+    message.seq = htonl(seq);
+    strcpy(message.content, content);
+
+    Header header{};
+    header.type = MessageType::TRANS;
+
+    int err = send(socket, &header, sizeof(header), 0);
+    if (err < 0) {
+        // TODO: replace throw with smth better
+        throw std::runtime_error("message io (send init message): send failed");
+    }
+
+    err = send(socket, &message, sizeof(message), 0);
+    if (err < 0) {
+        throw std::runtime_error("message io (send init message): send failed");
+    }
+}
+
+TransMessage MessagesIO::recvTransMessage(int socket, int *status) {
+    // TODO: remove repetition (see recvInitMessage())
+    TransMessage message{};
     *status = recv(socket, &message, sizeof(message), 0);
 
     if (*status < 0) {
