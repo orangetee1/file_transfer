@@ -7,9 +7,11 @@
 
 #include <cstdint>
 
+#include "../../include/Constants.h"
+
 struct InitMessage {
     uint64_t filesize;
-    char filename[4096];
+    char filename[kMaxFileNameSize];
 };
 
 #endif //INITMESSAGE_H
