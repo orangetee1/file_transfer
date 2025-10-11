@@ -5,11 +5,10 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-#include <cstdint>
+#include "MessageType.h"
 
 struct Header {
-    uint8_t type;
-    uint32_t length;
+    MessageType type;
 };
 
 #endif //HEADER_H
