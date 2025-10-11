@@ -17,11 +17,13 @@ add_executable(lab2 main.cpp
         src/server/ConnectionHandler.h
         src/protocol/messages/Header.h
         src/protocol/messages/InitMessage.h
-        src/protocol/io/MessagesIO.cpp
-        src/protocol/io/MessagesIO.h
         src/include/ConsoleColors.h
         src/protocol/messages/MessageType.h
         src/server/FileHandler.cpp
         src/server/FileHandler.h
         src/protocol/messages/TransMessage.h
+        src/client/Client.cpp
+        src/client/Client.h
+        src/protocol/io/MessagesIO.cpp
+        src/protocol/io/MessagesIO.h
 )
