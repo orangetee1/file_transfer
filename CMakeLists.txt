@@ -13,5 +13,5 @@ add_executable(lab2 main.cpp
         src/net/ClientSocket.h
         src/server/ServerState.cpp
         src/server/ServerState.h
-        src/server/ThreadManager.cpp
-        src/server/ThreadManager.h)
+        src/server/ConnectionHandler.cpp
+        src/server/ConnectionHandler.h)

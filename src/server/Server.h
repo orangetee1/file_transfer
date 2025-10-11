@@ -6,13 +6,12 @@
 #define SERVER_H
 
 #include <memory>
-#include <thread>
 #include <array>
+#include <thread>
 
 #include "ServerState.h"
-#include "ThreadManager.h"
-#include "../include/Constants.h"
 #include "../net/ServerSocket.h"
+#include "../include/Constants.h"
 
 inline auto server_state = std::make_shared<ServerState>();
 
@@ -26,10 +25,12 @@ public:
 private:
     // Data
     std::unique_ptr<ServerSocket> server_socket_;
-    std::unique_ptr<ThreadManager> thread_manager_;
+    std::array<std::thread, kDefaultBacklog> threads_;
+    std::size_t thread_count_;
 
     // Methods
     void setSignalHandler_();
+    void handleConnection_(int client_socket, int server_socket);
     void mainLoop_();
     void shutdown_();
 };

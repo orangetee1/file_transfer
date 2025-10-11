@@ -7,13 +7,15 @@
 #include <iostream>
 #include <sys/socket.h>
 
+#include "ConnectionHandler.h"
+
 void signalHandler(int signal) {
     server_state->setServerState(0);
 }
 
 Server::Server(int port) :
-    server_socket_(std::make_unique<ServerSocket>(port)),
-    thread_manager_(std::make_unique<ThreadManager>()) {
+    server_socket_(std::make_unique<ServerSocket>(port)) {
+    thread_count_ = 0;
     setSignalHandler_();
 }
 
@@ -30,6 +32,18 @@ void Server::setSignalHandler_() {
     sigaction(SIGINT, &sa, nullptr);
 }
 
+void Server::handleConnection_(int client_socket, int server_socket) {
+    if (thread_count_ < kDefaultBacklog) {
+        ConnectionHandler handler(client_socket, server_socket, server_state);
+
+        threads_[thread_count_] = std::thread(&ConnectionHandler::handle, &handler);
+
+        thread_count_++;
+    } else {
+        std::cout << "failed handle: too much connections";
+    }
+}
+
 void Server::mainLoop_() {
     while (server_state->getServerState()) {
         int client_socket;
@@ -39,14 +53,16 @@ void Server::mainLoop_() {
             throw std::runtime_error("accept failed");
         }
 
-        thread_manager_->handleConnection(client_socket, server_socket_->getSocket());
+        handleConnection_(client_socket, server_socket_->getSocket());
     }
 
     shutdown_();
 }
 
 void Server::shutdown_() {
-    thread_manager_->shutDown();
+    for (auto &thread : threads_) {
+        thread.join();
+    }
 
     std::cout << "Server terminated" << std::endl;
 }
