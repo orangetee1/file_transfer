@@ -11,7 +11,7 @@
 constexpr uint8_t kDefaultBacklog = 10;
 constexpr uint16_t kMaxFileNameSize = 4096;
 constexpr uint64_t kMaxFileSize = 10e12;
-constexpr uint64_t kTransferSize = 64 * 1024;
+constexpr uint64_t kTransferSize = 256 * 1024;
 
 constexpr std::string kFolderName = "uploads";
 
