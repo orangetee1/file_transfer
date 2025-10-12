@@ -13,17 +13,14 @@ add_executable(lab2 main.cpp
         src/net/ClientSocket.h
         src/server/ServerState.cpp
         src/server/ServerState.h
-        src/server/ConnectionHandler.cpp
-        src/server/ConnectionHandler.h
-        src/protocol/messages/Header.h
-        src/protocol/messages/InitMessage.h
+        src/server/ServerConnection.cpp
+        src/server/ServerConnection.h
         src/include/ConsoleColors.h
-        src/protocol/messages/MessageType.h
         src/server/FileHandler.cpp
         src/server/FileHandler.h
-        src/protocol/messages/TransMessage.h
         src/client/Client.cpp
         src/client/Client.h
-        src/protocol/io/MessagesIO.cpp
-        src/protocol/io/MessagesIO.h
+        src/protocol/server_messages/InitMessage.h
+        src/protocol/server_messages/MessageType.h
+        src/protocol/MessageHeader.h
 )
