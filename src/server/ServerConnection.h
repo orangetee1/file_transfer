@@ -6,8 +6,10 @@
 
 #include <memory>
 
+#include "ConnectionState.h"
 #include "FileHandler.h"
 #include "ServerState.h"
+#include "../protocol/ProtocolBase.h"
 
 class ServerConnection {
 public:
@@ -15,12 +17,22 @@ public:
     void handle();
 
 private:
-    // Data
+    // Sockets
     int client_socket_;
     int server_socket_;
+
+    // States
     std::shared_ptr<ServerState> server_state_;
+    std::shared_ptr<ConnectionState> connection_state_;
+    bool status_;
+
+    // Counts
+    uint32_t trans_received_count_{};
+    uint64_t bytes_received_{};
+
+    // Utils
     std::unique_ptr<FileHandler> file_handler_;
-    bool is_transferring_done;
+    std::unique_ptr<ProtocolBase> protocol_base_;
 
     // Methods
     void handle_();
