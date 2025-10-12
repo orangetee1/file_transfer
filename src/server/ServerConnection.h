@@ -9,12 +9,9 @@
 #include "FileHandler.h"
 #include "ServerState.h"
 
-/**
- * Thread class
- */
-class ConnectionHandler {
+class ServerConnection {
 public:
-    ConnectionHandler(int client_socket, int server_socket, std::shared_ptr<ServerState> ss);
+    ServerConnection(int client_socket, int server_socket, std::shared_ptr<ServerState> ss);
     void handle();
 
 private:

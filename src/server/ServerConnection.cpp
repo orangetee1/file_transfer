@@ -2,19 +2,19 @@
 // Created by orangetee on 10/11/25.
 //
 
-#include "ConnectionHandler.h"
+#include "ServerConnection.h"
 
 #include <iostream>
 #include <sys/socket.h>
 
-ConnectionHandler::ConnectionHandler(int client_socket, int server_socket,
+ServerConnection::ServerConnection(int client_socket, int server_socket,
                                      std::shared_ptr<ServerState> ss) :
     client_socket_(client_socket), server_socket_(server_socket),
     server_state_(std::move(ss)),
     file_handler_(std::make_unique<FileHandler>()),
     is_transferring_done(false) { }
 
-void ConnectionHandler::handle() {
+void ServerConnection::handle() {
     std::cout << "thread created" << std::endl;
 
     while (!is_transferring_done) {
@@ -29,11 +29,11 @@ void ConnectionHandler::handle() {
     std::cout << "thread terminated" << std::endl;
 }
 
-void ConnectionHandler::handle_() {
+void ServerConnection::handle_() {
 
 }
 
-void ConnectionHandler::closeClientSocket_() {
+void ServerConnection::closeClientSocket_() {
     if (close(client_socket_) < 0) {
         std::cout << errno << std::endl;
 
@@ -41,7 +41,7 @@ void ConnectionHandler::closeClientSocket_() {
     }
 }
 
-void ConnectionHandler::connectionClosedByPeer_() {
+void ServerConnection::connectionClosedByPeer_() {
     is_transferring_done = true;
     std::cout << "connection closed by peer" << std::endl;
 }

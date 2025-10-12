@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sys/socket.h>
 
-#include "ConnectionHandler.h"
+#include "ServerConnection.h"
 
 void signalHandler(int signal) {
     server_state->setServerState(0);
@@ -34,10 +34,10 @@ void Server::setSignalHandler_() {
 
 void Server::handleConnection_(int client_socket, int server_socket) {
     if (thread_count_ < kDefaultBacklog) {
-        auto handler = std::make_shared<ConnectionHandler>(client_socket, server_socket, server_state);
+        auto connection = std::make_shared<ServerConnection>(client_socket, server_socket, server_state);
 
-        threads_[thread_count_] = std::thread([handler]() {
-            handler->handle();
+        threads_[thread_count_] = std::thread([connection]() {
+            connection->handle();
         });
 
         thread_count_++;
