@@ -23,4 +23,9 @@ add_executable(lab2 main.cpp
         src/protocol/server_messages/InitMessage.h
         src/protocol/server_messages/MessageType.h
         src/protocol/MessageHeader.h
+        src/protocol/ProtocolBase.h
+        src/server/ConnectionState.cpp
+        src/server/ConnectionState.h
+        src/protocol/server_messages/TransMessage.h
+        src/protocol/server_messages/EndMessage.h
 )
