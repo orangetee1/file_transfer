@@ -5,8 +5,6 @@
 #ifndef MESSAGETYPE_H
 #define MESSAGETYPE_H
 
-#include <cstdint>
-
 enum class MessageType : uint8_t {
     INIT,
     TRANS,
