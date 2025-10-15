@@ -1,6 +1,7 @@
 #include <cstring>
 #include <iostream>
 
+#include "src/client/Client.h"
 #include "src/server/Server.h"
 #include "src/server/FileHandler.h"
 
@@ -26,7 +27,8 @@ void start_client(int argc, char *argv[]) {
     int port = std::stoi(argv[3]);
     std::string filepath(argv[4]);
 
-    // TODO: create client Client copy
+    Client client(server_ip, port, filepath);
+    client.launch();
 }
 
 int main(int argc, char *argv[]) {
