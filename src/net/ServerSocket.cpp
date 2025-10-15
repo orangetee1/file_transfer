@@ -22,6 +22,11 @@ ServerSocket::ServerSocket(int port) {
         throw std::runtime_error("socket failed");
     }
 
+    constexpr int enable = 1;
+    if (setsockopt(server_socket_, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0) {
+        throw std::runtime_error("setsockopt failed");
+    }
+
     if (bind(server_socket_, reinterpret_cast<sockaddr*>(&server_address),
         sizeof(server_address))) {
         throw std::runtime_error("bind failed");
