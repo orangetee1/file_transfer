@@ -21,11 +21,16 @@ public:
 
     // Get methods
     virtual std::unique_ptr<MessageHeader> getMessageHeader() = 0;
-    virtual std::unique_ptr<InitMessage> getInitMessage() = 0;
-    virtual std::unique_ptr<TransMessage> getTransMessage() = 0;
-    virtual std::unique_ptr<EndMessage> getEndMessage() = 0;
+    virtual std::unique_ptr<InitMessage> getInitMessage(size_t length) = 0;
+    virtual std::unique_ptr<TransMessage> getTransMessage(size_t length) = 0;
+    virtual std::unique_ptr<EndMessage> getEndMessage(size_t length) = 0;
+    virtual bool checkAckInit() = 0;
+    virtual bool checkAckTrans() = 0;
 
     // Send methods
+    virtual void sendInitMessage(InitMessage*) = 0;
+    virtual void sendTransMessage(TransMessage*) = 0;
+    virtual void sendEndMessage(EndMessage*) = 0;
     virtual void sendAckInit() = 0;
     virtual void sendAckTrans() = 0;
     virtual void sendStatus(bool) = 0;
