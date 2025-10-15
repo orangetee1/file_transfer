@@ -9,6 +9,7 @@
 #include <array>
 #include <thread>
 
+#include "ServerConnection.h"
 #include "ServerState.h"
 #include "../net/ServerSocket.h"
 #include "../include/Constants.h"
@@ -25,14 +26,17 @@ public:
 private:
     // Data
     std::unique_ptr<ServerSocket> server_socket_;
-    std::array<std::thread, kDefaultBacklog> threads_;
     std::size_t thread_count_;
+    std::thread speed_monitor_;
+    std::vector<std::shared_ptr<ServerConnection>> connections_;
 
     // Methods
     void setSignalHandler_();
     void handleConnection_(int client_socket, int server_socket);
     void mainLoop_();
     void shutdown_();
+    void speedThreadFunc_();
+    void startSpeedThread_();
 };
 
 
