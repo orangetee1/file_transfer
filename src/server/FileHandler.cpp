@@ -24,9 +24,9 @@ void FileHandler::openFile(const std::string& filename, uint64_t filesize) {
     file_stream_ = std::ofstream(file_path);
 }
 
-void FileHandler::writeToFile(char *content, uint32_t content_size) {
+void FileHandler::writeToFile(std::string& content, uint32_t content_size) {
     if (file_stream_.is_open()) {
-        file_stream_.write(content, content_size);
+        file_stream_.write(content.c_str(), content_size);
     }
 }
 

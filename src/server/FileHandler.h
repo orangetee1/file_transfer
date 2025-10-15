@@ -14,7 +14,7 @@ public:
     ~FileHandler();
 
     void openFile(const std::string& filename, uint64_t filesize);
-    void writeToFile(char *content, uint32_t content_size);
+    void writeToFile(std::string& content, uint32_t content_size);
 
 private:
     std::filesystem::path dir_path_;
