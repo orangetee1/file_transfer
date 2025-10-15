@@ -11,6 +11,7 @@ class ClientSocket {
 public:
     ClientSocket();
     void setConnection(std::string& address, int port);
+    int getSocket();
 
 private:
     int client_socket_;

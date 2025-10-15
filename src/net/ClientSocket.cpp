@@ -4,8 +4,10 @@
 
 #include "ClientSocket.h"
 
+#include <iostream>
 #include <stdexcept>
 #include <arpa/inet.h>
+#include <bits/ostream.tcc>
 #include <sys/socket.h>
 
 ClientSocket::ClientSocket() {
@@ -24,4 +26,8 @@ void ClientSocket::setConnection(std::string &address, int port) {
         sizeof(server_address)) < 0) {
         throw std::runtime_error("connect failed");
     }
+}
+
+int ClientSocket::getSocket() {
+    return client_socket_;
 }
